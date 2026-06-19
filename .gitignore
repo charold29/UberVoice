@@ -1,0 +1,23 @@
+# Claude Code — config local del desarrollador (no se publica)
+.claude/settings.local.json
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Package.resolved
+
+# macOS
+.DS_Store
+
+# Xcode (cuando llegue el app target en la sesión Mac)
+xcuserdata/
+*.xcuserstate
+DerivedData/
+
+# Documentación privada — el repo es público (runners macOS ilimitados).
+# No publicar estrategia, decisión de arquitectura, referencia ni guion de
+# presentación. El CLAUDE.md SÍ se versiona (reglas operativas, no sensible).
+Uber-Voice_Referencia_Siri.pdf
+UberVoice_Estrategia.md
+UberVoice_Decision_Arquitectura.md
+UberVoice_Fase0_Resumen.md

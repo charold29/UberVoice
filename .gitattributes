@@ -1,0 +1,6 @@
+# Normaliza finales de línea a LF: se desarrolla en Windows pero el CI
+# compila/testea en macOS. Evita ruido de CRLF en los .swift y YAML.
+* text=auto eol=lf
+
+# Binarios (no diff de texto).
+*.pdf binary

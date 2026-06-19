@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+# Los minutos de macOS cuentan 10×: cancelamos runs viejos del mismo branch.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    runs-on: macos-latest
+    defaults:
+      run:
+        # El package vive en su propio directorio; el app target queda fuera de CI.
+        working-directory: UberVoiceCore
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Swift build
+        run: swift build
+
+      - name: Swift test
+        run: swift test
