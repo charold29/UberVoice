@@ -25,6 +25,17 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      # Caché de artefactos de SwiftPM para builds incrementales.
+      # Hit exacto si no cambió ningún fuente/manifiesto; si cambió un .swift,
+      # restore-keys reusa el .build previo y solo recompila lo afectado.
+      - name: Cache SwiftPM build
+        uses: actions/cache@v5
+        with:
+          path: UberVoiceCore/.build
+          key: ${{ runner.os }}-spm-${{ hashFiles('UberVoiceCore/Package.swift', 'UberVoiceCore/Package.resolved', 'UberVoiceCore/Sources/**/*.swift', 'UberVoiceCore/Tests/**/*.swift') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
       - name: Swift build
         run: swift build
 
