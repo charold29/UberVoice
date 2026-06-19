@@ -17,7 +17,7 @@ jobs:
         # El package vive en su propio directorio; el app target queda fuera de CI.
         working-directory: UberVoiceCore
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Swift build
         run: swift build
