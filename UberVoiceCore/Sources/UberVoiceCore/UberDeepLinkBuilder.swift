@@ -3,8 +3,12 @@ import Foundation
 /// Construye el **deep link universal** de Uber (`https://m.uber.com/ul/`) con la
 /// acción `setPickup`: origen = ubicación actual del usuario, destino prellenado.
 ///
-/// El núcleo produce una **cadena byte-exacta** (``urlString(for:)``); la conversión
-/// a `URL` (``url(for:)``) es solo una conveniencia para el adaptador `RideLauncher`.
+/// El núcleo produce **solo la cadena byte-exacta** del enlace (``urlString(for:)``).
+/// Construir el objeto `URL` y abrirlo es responsabilidad del adaptador
+/// `RideLauncher` (infraestructura), porque el parser de `URL` de Foundation trata
+/// los corchetes literales distinto según la versión del SO: el parser estricto
+/// (macOS de CI) los rechaza, el legacy (iOS 16 en device) los conserva. Mantener
+/// esa conversión fuera del núcleo lo deja 100% determinista y testeable en CI.
 ///
 /// Reglas que respeta (ver `CLAUDE.md`):
 /// - Llaves con corchetes **literales**: `dropoff[latitude]`, nunca `dropoff%5Blatitude%5D`.
@@ -29,21 +33,6 @@ public struct UberDeepLinkBuilder {
     /// Este es el producto canónico del builder y lo que verifican los tests.
     public func urlString(for destination: Destination) -> String {
         Self.baseURL + "?" + percentEncodedQuery(for: destination)
-    }
-
-    /// Conveniencia para el adaptador `RideLauncher`. Devuelve `URL?` porque la
-    /// creación depende del parser de Foundation; en la práctica nunca es `nil`
-    /// para coordenadas válidas.
-    public func url(for destination: Destination) -> URL? {
-        // Construimos vía URLComponents fijando `percentEncodedQuery` para que los
-        // corchetes literales sobrevivan (URL(string:) los rechaza en el parser
-        // estricto). Fallback defensivo a URL(string:).
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "m.uber.com"
-        components.path = "/ul/"
-        components.percentEncodedQuery = percentEncodedQuery(for: destination)
-        return components.url ?? URL(string: urlString(for: destination))
     }
 
     // MARK: - Query

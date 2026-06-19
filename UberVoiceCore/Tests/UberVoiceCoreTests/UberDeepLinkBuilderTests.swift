@@ -115,13 +115,4 @@ final class UberDeepLinkBuilderTests: XCTestCase {
             "aZ09-._~"
         )
     }
-
-    // MARK: - url(for:) — frontera hacia el RideLauncher
-
-    func test_url_isNotNil_andPreservesLiteralBrackets() {
-        let url = UberDeepLinkBuilder().url(for: gym)
-        let unwrapped = try? XCTUnwrap(url)
-        XCTAssertNotNil(unwrapped)
-        XCTAssertEqual(unwrapped?.host, "m.uber.com")
-    }
 }
