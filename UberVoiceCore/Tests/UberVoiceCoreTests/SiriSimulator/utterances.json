@@ -1,0 +1,22 @@
+[
+  {
+    "input": "llévame a casa",
+    "expectedNickname": "Home"
+  },
+  {
+    "input": "de siempre",
+    "expectedNickname": "Home"
+  },
+  {
+    "input": "ir al gym",
+    "expectedNickname": "Gym"
+  },
+  {
+    "input": "al gimnasio",
+    "expectedNickname": "Gym"
+  },
+  {
+    "input": "al aeropuerto",
+    "expectedNickname": "Airport"
+  }
+]
